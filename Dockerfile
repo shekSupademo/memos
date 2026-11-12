@@ -1,5 +1,5 @@
-# Render deploy image: builds the React frontend and the Go server from source,
-# so every push to main ships both. The upstream release image lives in
+# Deploy image: builds the React frontend and the Go server from source,
+# so every push to main ships both (built by .github/workflows/render-deploy.yml). The upstream release image lives in
 # scripts/Dockerfile and expects the frontend to be prebuilt.
 
 FROM node:24-alpine AS frontend
