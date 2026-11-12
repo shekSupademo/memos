@@ -1,0 +1,12 @@
+# Used by the root Dockerfile (Render). Unlike .dockerignore, keeps web/.
+/build/
+/bin/
+/tmp/
+/memos
+**/node_modules/
+/docs/
+/.github/
+/.git/
+/.env
+/.env.*
+**/.DS_Store
