@@ -1,83 +1,40 @@
-> ✨ Featured sponsor: [CodeRabbit — Industry-leading AI code reviews](https://coderabbit.link/usememos).
+# Northbeam
 
-<h1 id="memos">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/brand/lockup-on-dark.svg" />
-    <img src="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/brand/lockup.svg" alt="Memos" width="220" />
-  </picture>
-</h1>
+A frontend-only business banking dashboard. It's a realistic, interaction-heavy UI for testing tools that watch code changes and check their effect on the user-facing app.
 
-### Simple note-taking for your everyday thoughts.
+There's no backend. All data is generated sample data and is kept in the browser's `localStorage`. **Settings → Company → Reset demo data** restores the original data.
 
-Memos is an open-source, self-hosted note-taking app that brings your everyday thoughts together in a personal timeline. Your data stays yours, and you choose what to keep private or share.
+## Pages and flows
 
-[Demo](https://demo.usememos.com) · [Install](#quick-start) · [Docs](https://usememos.com/docs) · [Discord](https://discord.gg/tfPJa4UmAv)
+| Route | What you can do |
+|---|---|
+| `#/` Home | Total balance chart (30D/90D/6M), money in and out, burn and runway, a "Needs attention" list, account tiles, cash flow chart, recent transactions |
+| `#/transactions` | Search, filter (account, category, status, direction, date range, minimum amount, missing receipt), sort, paginate, bulk-categorize, CSV export, a detail drawer with category, note and receipt upload |
+| `#/accounts/:id` | Per-account balance chart, routing and account numbers with copy buttons, that account's transactions |
+| `#/payments` | Upcoming and recent payments, recipients with search and a "Pay" button |
+| `#/cards` | Freeze and unfreeze, edit name and monthly limit, issue new virtual or physical cards, spend-vs-limit bars |
+| `#/invoices` | Status tabs, an invoice editor with line items and validation, send, mark paid (which posts a revenue transaction), view, delete |
+| `#/insights` | Spend by category (click through to filtered transactions), top vendors, net cash flow by month |
+| `#/settings` | Company profile and theme, team invites with roles (the last admin can't be removed), notification toggles and threshold, reset data |
 
-[![Docker pulls](https://img.shields.io/docker/pulls/neosmemo/memos?style=flat-square&logo=docker)](https://hub.docker.com/r/neosmemo/memos)
-[![Latest release](https://img.shields.io/github/v/release/usememos/memos?style=flat-square&label=Release)](https://github.com/usememos/memos/releases)
+Also available everywhere:
+- **Move money**: a three-step send-money wizard (recipient, amount, review) that can add a recipient and checks the balance and date, plus transfers between accounts.
+- **⌘K / Ctrl+K**: a command palette that searches pages, actions and transactions.
+- **Dark mode**.
+- **Mobile navigation**.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/previews/timeline-dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/previews/timeline-light.png" />
-  <img src="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/previews/timeline-light.png" alt="The Memos timeline with a memo composer and recent memos" />
-</picture>
+Key elements carry `data-testid` attributes for automated checks.
 
-## About Memos
-
-Memos is an open-source, self-hosted note-taking app for your everyday thoughts.
-
-- **Everyday writing.** A single sentence can be a whole memo, or you can take your time with a longer entry, using Markdown to give your words more structure.
-- **A personal timeline.** Each memo stays with the day you wrote it, bringing your thoughts together in a timeline you can look back through. Tags connect related thoughts across those days, making it easy to pick up a topic again or find something you remember writing.
-- **Your own data.** Your record lives on your own server, and your data stays yours.
-- **Sharing you control.** You choose what stays private, what to share with family and friends, and what to publish on the web. In shared spaces, you can write alongside others while each person keeps their own memos.
-
-## Quick start
-
-With Docker installed, run:
+## Develop
 
 ```bash
-docker run -d \
-  --name memos \
-  -p 5230:5230 \
-  -v ~/.memos:/var/opt/memos \
-  neosmemo/memos:stable
+pnpm install
+pnpm dev      # http://localhost:5173
+pnpm build    # type-check and build to dist/
 ```
 
-Open http://localhost:5230 and create the first account. Everything Memos keeps is in `~/.memos`, so back up that one folder.
+## Deploy
 
-Other ways to run Memos, including Docker Compose, Kubernetes, and a plain binary, are in the [deployment guide](https://usememos.com/docs/deploy).
+`.github/workflows/pages.yml` builds every push to `main` and publishes it to GitHub Pages, which is free. Pull requests run the same build as a check. One-time setup: **Settings → Pages → Source: GitHub Actions**.
 
-## Upgrading
-
-Releases are tagged `YY.MM.N`, with release candidates as `YY.MM.N-rc.K` and no `v` prefix. The Docker tag `stable` follows stable releases, a month tag such as `26.10` follows the newest stable release of that month, and `canary` follows development builds. Coming from a release before v0.31.0, run [v0.31.0](https://github.com/usememos/memos/releases/tag/v0.31.0) once first; see the [upgrade requirements](store/migration/README.md).
-
-## Around Memos
-
-- [Web Clipper](https://usememos.com/web-clipper) for [Chrome](https://chromewebstore.google.com/detail/memos-web-clipper/nebaoebnljalfegiidibihhkebeiklbl) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/memos-web-clipper/) saves pages, selections, and images to your memos as Markdown with a link to the source.
-- [Memogram](https://github.com/usememos/telegram-integration) is a Telegram bot that saves your messages and images to Memos.
-- The [API](https://usememos.com/docs/api/latest) and [MCP server](https://usememos.com/docs/integrations/mcp) connect Memos to your own scripts and AI tools.
-
-## Sponsors
-
-<p>
-  <a href="https://coderabbit.link/usememos" target="_blank" rel="noopener"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/sponsors/coderabbit/white-typemark.svg" /><img src="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/sponsors/coderabbit/orange-typemark.svg" alt="CodeRabbit" height="40" align="middle" /></picture></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=memos" target="_blank" rel="noopener"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/sponsors/testmuai/white.png" /><img src="https://raw.githubusercontent.com/usememos/.github/refs/heads/main/assets/sponsors/testmuai/black.png" alt="TestMu AI" height="30" align="middle" /></picture></a>
-</p>
-
-Sponsor Memos through [GitHub Sponsors](https://github.com/sponsors/usememos).
-
-## Help and contributing
-
-Questions go to the [docs](https://usememos.com/docs), [Discord](https://discord.gg/tfPJa4UmAv), or [GitHub Discussions](https://github.com/usememos/memos/discussions). Bugs and ideas go to [issues](https://github.com/usememos/memos/issues/new/choose). Code changes start with the [contributing guide](https://usememos.com/docs/development/contributing).
-
-## Star History
-
-<p>
-  <a href="https://www.star-history.com/usememos/memos"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=usememos/memos&type=rank&theme=dark" /><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=usememos/memos&type=rank" /><img alt="Star History Rank" src="https://api.star-history.com/badge?repo=usememos/memos&type=rank" /></picture></a>
-  <a href="https://www.star-history.com/usememos/memos"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=usememos/memos&type=trending&theme=dark" /><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=usememos/memos&type=trending" /><img alt="GitHub Trending Repository of the Day" src="https://api.star-history.com/badge?repo=usememos/memos&type=trending" /></picture></a>
-</p>
-
-## License
-
-Memos is open source under the [MIT License](LICENSE).
+Stack: React 19, React Router 7 (hash routing for Pages), Tailwind CSS 4, Recharts, Vite 6, TypeScript.
